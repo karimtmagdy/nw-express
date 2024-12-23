@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { database } from "./config/db.js";
+import { RoutesAPI } from "./routes/index.js";
 import express from "express";
 // import express from 'express'
 // import express from 'express'
@@ -49,6 +50,7 @@ app.use(
   })
 );
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+RoutesAPI(app);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
