@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "deploay express js server for website e-commerce",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "--exce nodemon.json",
+    "random": "node index.js"
   },
   "keywords": [],
   "author": "",
