@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const Message = "Message : API is connected Successfully";
-export const database = () => {
+export const database = async () => {
   mongoose.connect(process.env.MONGO_URI);
   // process.env.DB_VERCEL.replace("<PASSWORD>", process.env.DB_PASSWORD)
   mongoose.connection.once("open", () => {
