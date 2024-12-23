@@ -3,8 +3,8 @@ import cors from "cors";
 import session from "express-session";
 import morgan from "morgan";
 export const ConfigApp = (app) => {
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+  app.use(express.json({ limit: "50mb" }));
+  app.use(express.urlencoded({ extended: true }));
   app.use(
     cors({
       origin: ["http://localhost:3000", "https://newave.vercel.app"],
