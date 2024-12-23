@@ -13,7 +13,6 @@ import cors from "cors";
 import session from "express-session";
 import morgan from "morgan";
 
-// database();
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
@@ -34,6 +33,12 @@ app.use(
       dbName: "newave",
       collectionName: "sessions",
       clientPromise: database(),
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+      serializer: JSON.stringify,
+      deserializer: JSON.parse,
     }),
     cookie: {
       httpOnly: true,
