@@ -13,7 +13,7 @@ import cors from "cors";
 import session from "express-session";
 import morgan from "morgan";
 
-database();
+// database();
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
@@ -33,6 +33,7 @@ app.use(
       mongoUrl: process.env.MONGO_URI,
       dbName: "newave",
       collectionName: "sessions",
+      clientPromise: database(),
     }),
     cookie: {
       httpOnly: true,
