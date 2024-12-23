@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-// import { db } from "../constants/index.js";
-const Message = "";
+
+const Message = "Message : API is connected Successfully";
 export const database = () => {
   mongoose.connect(process.env.MONGO_URI);
   // process.env.DB_VERCEL.replace("<PASSWORD>", process.env.DB_PASSWORD)
