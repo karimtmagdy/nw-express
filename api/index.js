@@ -10,9 +10,9 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import morgan from "morgan";
-import { database } from "./config/db.js";
+// import { database } from "./config/db.js";
 
-database();
+// database();
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
