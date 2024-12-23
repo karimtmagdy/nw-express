@@ -2,7 +2,7 @@
   "name": "nw-express",
   "version": "1.0.0",
   "description": "deploay express js server for website e-commerce",
-  "main": "index.js",
+  "main": "api/index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",

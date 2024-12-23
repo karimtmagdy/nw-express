@@ -2,15 +2,19 @@
 import mongoose from "mongoose";
 const Message = "Message : API is connected Successfully";
 
-export const database =()=>{
-  mongoose.connect(process.env.MONGO_URI);
-  console.log(Message);
+export const database = () => {
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+      console.log(Message);
+    })
+    .catch((err) => console.log(err));
   // mongoose.connection.once("open", () => {
   // });
   mongoose.connection.on("error", (error) => {
     console.error("Error connecting to MongoDB:", error);
   });
-}
+};
 
 // export const database =  () => {
 //   mongoose.connect(process.env.MONGO_URI.toString());
