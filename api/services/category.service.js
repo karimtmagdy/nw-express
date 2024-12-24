@@ -1,9 +1,5 @@
 import slugify from "slugify";
-import {
-//   cache,
-  fn,
-//   generateCacheKey,
-} from "../lib/utils.js";
+import { cache, fn, generateCacheKey } from "../lib/utils.js";
 import Category from "../models/category.model.js";
 /**
  * @description create category
@@ -42,11 +38,11 @@ export const getCategories = fn(async (req, res) => {
   const limit = parseInt(req.query.limit) * 1 || 10;
   const skip = (page - 1) * limit;
   const categories = await Category.find().skip(skip).limit(limit).lean();
-  // const casheKey = generateCacheKey("Category", { page, limit });
-  // const cachedData = cache.get(casheKey);
-  // if (cachedData) {
-  //   return res.json({ cachedData });
-  // }
+  const casheKey = generateCacheKey("Category", { page, limit });
+  const cachedData = cache.get(casheKey);
+  if (cachedData) {
+    return res.json({ cachedData });
+  }
   if (categories.length === 0) {
     return res.status(404).json({ message: "No categories found." });
   }

@@ -1,4 +1,6 @@
 import "dotenv/config";
+import "express-async-errors";
+
 import { database } from "./config/db.js";
 import { RoutesAPI } from "./routes/index.js";
 import express from "express";
@@ -20,7 +22,11 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://newave-store.vercel.app", "*"],
+    origin: [
+      "http://localhost:3000",
+      "https://newave-store.vercel.app",
+      "http://localhost:1573",
+    ],
     credentials: true,
   })
 );
@@ -32,11 +38,10 @@ app.use(
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URI,
       dbName: "newave",
-      collectionName: "sessions",
       clientPromise: database(),
       mongoOptions: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+        // useNewUrlParser: true,
+        // useUnifiedTopology: true,
       },
       serializer: JSON.stringify,
       deserializer: JSON.parse,
@@ -61,11 +66,11 @@ const port = process.env.PORT || 8000;
 
 app
   .listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`started development app on port ${port}`);
   })
   .on("error", (err) => {
     if (err.code === "EADDRINUSE") {
-      console.error(`started development app on port ${port}`);
+      console.error(`error: Port ${port} is already in use.`);
       process.exit(1);
     }
   });

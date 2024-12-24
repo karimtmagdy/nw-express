@@ -3,7 +3,7 @@ import cors from "cors";
 import session from "express-session";
 import morgan from "morgan";
 export const ConfigApp = (app) => {
-  const app = express();
+  // const app = express();
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ extended: true }));
   app.use(
