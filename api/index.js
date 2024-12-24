@@ -1,6 +1,7 @@
 import "dotenv/config";
-import "express-async-errors";
+// import "express-async-errors";
 
+import ApiError from "./lib/api.error.js";
 import { database } from "./config/db.js";
 import { RoutesAPI } from "./routes/index.js";
 import express from "express";
@@ -26,6 +27,7 @@ app.use(
       "http://localhost:3000",
       "https://newave-store.vercel.app",
       "http://localhost:1573",
+      "*",
     ],
     credentials: true,
   })
@@ -51,6 +53,7 @@ app.use(
       secure: process.env.NODE_ENV === "production", // كوكيز آمنة فقط في بيئة الإنتاج
       sameSite: "strict",
       maxAge: 1000 * 60 * 60 * 24 * 30,
+      // maxAge: parseInt(process.env.JWT_EXPIRE_AT),
     },
   })
 );
@@ -61,6 +64,10 @@ app.get("/", (req, res) => {
 });
 app.get("/favicon.ico", (req, res) => {
   res.status(204).send();
+});
+
+app.all("*", (req, res, next) => {
+  next(new ApiError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 const port = process.env.PORT || 8000;
 
