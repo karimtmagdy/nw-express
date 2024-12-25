@@ -1,9 +1,10 @@
 import asyncHandler from "express-async-handler";
 import NodeCache from "node-cache";
 import jwt from "jsonwebtoken";
-export const fn = (fn) => asyncHandler(fn);
 
+export const fn = (fn) => asyncHandler(fn);
 export const cache = new NodeCache({ stdTTL: 60, checkperiod: 120 });
+
 
 export const generateToken = (payload) => {
   return jwt.sign({ userId: payload }, process.env.JWT_ACCESS_TOKEN, {

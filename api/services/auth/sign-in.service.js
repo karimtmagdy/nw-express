@@ -7,7 +7,7 @@ export const login = fn(async (req, res) => {
   const user = await User.findOne({
     $or: [{ email }, { username }],
   }).exec();
-  if (user) {
+  if (!user) {
     return res
       .status(400)
       .json({ status: "fail", message: "user already exists", exists: true });
@@ -23,9 +23,13 @@ export const login = fn(async (req, res) => {
   const token = generateToken({
     userId: user._id,
     username: user.username,
+    display_name: user.display_name,
     email: user.email,
-    password: user.password,
     role: user.role,
+    photo_avatar:user.photo_avatar,
+    gender:user.gender,
+    remember_me:user.remember_me,
+    about:user.about,
   });
   if (user.role === "admin") {
     return res.status(200).json({

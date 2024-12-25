@@ -35,7 +35,7 @@ export const createCategory = fn(async (req, res) => {
 export const getCategories = fn(async (req, res) => {
   const total = await Category.countDocuments();
   const page = parseInt(req.query.page) * 1 || 1;
-  const limit = parseInt(req.query.limit) * 1 || 10;
+  const limit = parseInt(req.query.limit) * 20 || 20;
   const skip = (page - 1) * limit;
   const categories = await Category.find().skip(skip).limit(limit).lean();
   const casheKey = generateCacheKey("Category", { page, limit });
