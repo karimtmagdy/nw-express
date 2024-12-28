@@ -8,8 +8,17 @@ export const ConfigApp = (app) => {
   app.use(express.urlencoded({ extended: true }));
   app.use(
     cors({
-      origin: ["http://localhost:3000", "https://newave.vercel.app", "*"],
+      origin: [
+        "http://localhost:3000",
+        "http://localhost:1573",
+        "https://newave-store.vercel.app",
+      ],
       credentials: true,
+      optionsSuccessStatus: 200,
+      methods: "GET,POST,PUT,PATCH,DELETE",
+      exposedHeaders: "Content-Type,Authorization",
+      allowedHeaders: "Content-Type,Authorization",
+      preflightContinue: true,
     })
   );
   app.use(

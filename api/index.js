@@ -1,6 +1,5 @@
 import "dotenv/config";
 // import "express-async-errors";
-
 import ApiError from "./lib/api.error.js";
 import { database } from "./config/db.js";
 import { RoutesAPI } from "./routes/index.js";
@@ -10,12 +9,12 @@ import express from "express";
 // import express from 'express'
 // import express from 'express'
 // import express from 'express'
-// import express from 'express'
-// import express from 'express'
+import { allowedOrigins } from "./config/cors-options.js";
 import MongoStore from "connect-mongo";
 import cors from "cors";
 import session from "express-session";
 import morgan from "morgan";
+import { globalErrorHandler } from "./middlewares/global.middleware.js";
 
 const app = express();
 
@@ -23,13 +22,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://newave-store.vercel.app",
-      "http://localhost:1573",
-      "*",
-    ],
-    credentials: true,
+    origin: allowedOrigins,
   })
 );
 app.use(
@@ -59,6 +52,8 @@ app.use(
 );
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 RoutesAPI(app);
+app.use(globalErrorHandler);
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });

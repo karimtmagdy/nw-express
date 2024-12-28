@@ -9,8 +9,8 @@ export const login = fn(async (req, res) => {
   }).exec();
   if (!user) {
     return res
-      .status(400)
-      .json({ status: "fail", message: "user already exists", exists: true });
+      .status(404)
+      .json({ status: "fail", message: "user not found", exists: true });
   }
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
