@@ -31,7 +31,7 @@ const productSchema = new Schema(
     colors: [String],
     sizes: [String],
     images: [String],
-    cover: { type: String, trim: true },
+    cover: { type: String, default:'https://images.unsplash.com/photo-1709528922659-8f86b0f02b9b?q=80&w=1852&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
     about: {
       model: {
         type: String,
@@ -82,10 +82,21 @@ const productSchema = new Schema(
   }
 );
 export default model("Product", productSchema);
-    // views: { type: Number, default: 0 },
-    // likes: { type: Number, default: 0 },
-    // comments: { type: Number, default: 0 },
-    // shares: { type: Number, default: 0 },
-    // favorite: {},
-    // wishlist: {},
-    // cart: {},
+productSchema.virtual("inStock").get(function () {
+  return this.stock > 0 ? "in stock" : "out of stock";
+});
+productSchema.set("toJSON", { virtuals: true });
+productSchema.set("toObject", { virtuals: true });
+productSchema.set("toObject", {
+  transform: function (doc, ret) {
+    delete ret.__v;
+    return ret;
+  },
+});
+// views: { type: Number, default: 0 },
+// likes: { type: Number, default: 0 },
+// comments: { type: Number, default: 0 },
+// shares: { type: Number, default: 0 },
+// favorite: {},
+// wishlist: {},
+// cart: {},

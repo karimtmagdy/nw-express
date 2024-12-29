@@ -22,7 +22,6 @@ const sendErrorProd = (err, res) => {
 export const globalErrorHandler = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
-
   // معالجة أخطاء Zod
   if (err instanceof ZodError) {
     return res.status(400).json({
@@ -31,15 +30,13 @@ export const globalErrorHandler = (err, req, res, next) => {
       errors: err.errors,
     });
   }
-
   // التحقق من البيئة وتقديم استجابة مناسبة
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);
   } else {
-    // if (err.name === "JsonWebTokenError") err = hadleJwtInvalid();
+    // if (err.name === "JsonWebTokenError") err = handleJwtInvalid();
     // if (err.name === "TokenExpiredError") err = handleJwtExpired();
     sendErrorProd(err, res);
   }
-
   next();
 };

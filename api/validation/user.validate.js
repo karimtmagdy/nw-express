@@ -1,5 +1,5 @@
 import { z } from "zod";
-import expressAsyncHandler from "express-async-handler";
+import { fn } from "../lib/utils.js";
 
 const formatDisplayname = (username) =>
   `@${username.replace(/\s+/g, "." || "-")}`;
@@ -30,7 +30,7 @@ const userSchema = z.object({
   gender: z.string().nonempty("gender is required"),
 });
 
-const validateUser = expressAsyncHandler(async (req, res, next) => {
+const validateUser = fn(async (req, res, next) => {
   await userSchema.parseAsync(req.body);
   next();
 });

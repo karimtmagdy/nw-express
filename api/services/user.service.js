@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import { cache, fn, generateCacheKey } from "../lib/utils.js";
 import slugify from "slugify";
+import uploadDir from "../config/static-file.js";
+import { cloudinaryUploadImage } from "../config/cloudinary.js";
 /**
  * @description Create user
  * @method      POST
@@ -8,7 +10,23 @@ import slugify from "slugify";
  * @access      private
  * @memberof    Admin
  */
-
+export const profilePhotoUpload = fn(async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "failed to upload profile photo." });
+  }
+  const image_path = path.join(`${uploadDir}/${req.user._id}`);
+  const { path } = req.file;
+  const result = await cloudinaryUploadImage(path, image_path);
+  console.log(result);
+  if (!result) {
+    return res.status(400).json({ message: "failed to upload profile photo." });
+  }
+  res.status(200).json({
+    status: "success",
+    message: "profile photo uploaded successfully.",
+    result,
+  });
+});
 export const createUser = fn(async (req, res) => {
   const { username } = req.body;
   const user = await User.create(req.body, {

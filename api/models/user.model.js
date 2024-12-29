@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
-import { v4 as uuidv4 } from "uuid";
+
+import { nanoid } from "nanoid";
 
 const formatDisplayname = (username) =>
   `@${username.replace(/\s+/g, "." || "-")}`;
@@ -45,8 +46,13 @@ const userSchema = new Schema(
     // },
     role: {
       type: String,
-      enum: ["user", "admin", "manager", "super-admin", "moderator"],
+      enum: ["user", "admin", "super-admin"],
       default: "user",
+    },
+    permissions: {
+      type: [String],
+      enum: ["create", "delete", "update", "view", "delete-all"],
+      default: ["view"],
     },
     slug: { type: String, lowercase: true },
     gender: { type: String, enum: ["male", "female"] },
@@ -61,8 +67,13 @@ const userSchema = new Schema(
       type: Object,
       default: {
         url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
-        pablic_id: uuidv4().split("-")[0],
+
+        pablic_id: nanoid(10).split("-")[0],
       },
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
     },
     about: {
       type: Object,

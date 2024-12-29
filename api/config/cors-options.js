@@ -11,5 +11,3 @@ export const allowedOrigins = {
   allowedHeaders: "Content-Type,Authorization",
   preflightContinue: true,
 };
-
-// Replace with your client's origin

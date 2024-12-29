@@ -20,3 +20,9 @@ export const clearCache = (model, params) => {
   const key = generateCacheKey(model, params);
   cache.del(key);
 };
+export const pagination = (req, res) => {
+  const page = req.query.page || 1;
+  const limit = req.query.limit * 1 || 10;
+  const skip = (page - 1) * limit;
+  return { page, limit, skip };
+};

@@ -1,10 +1,10 @@
 import "dotenv/config";
-// import "express-async-errors";
+import "express-async-errors";
+import express from "express";
 import ApiError from "./lib/api.error.js";
 import { database } from "./config/db.js";
 import { RoutesAPI } from "./routes/index.js";
-import express from "express";
-// import express from 'express'
+
 // import express from 'express'
 // import express from 'express'
 // import express from 'express'
@@ -15,11 +15,13 @@ import cors from "cors";
 import session from "express-session";
 import morgan from "morgan";
 import { globalErrorHandler } from "./middlewares/global.middleware.js";
+import uploadDir from "./config/static-file.js";
 
 const app = express();
 
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false, limit: "50mb" }));
+app.use(express.static(uploadDir));
 app.use(
   cors({
     origin: allowedOrigins,
@@ -55,7 +57,7 @@ RoutesAPI(app);
 app.use(globalErrorHandler);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! from vercel API NEWAVE V1.0.0 🚀");
 });
 app.get("/favicon.ico", (req, res) => {
   res.status(204).send();
