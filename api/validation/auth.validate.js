@@ -1,55 +1,66 @@
 import { z } from "zod";
-import { fn } from "../lib/utils.js";
 const formatDisplayname = (username) =>
   `@${username.replace(/\s+/g, "." || "-")}`;
-export const registerSchema = z
+export const signUpSchema = z
   .object({
     display_name: z.string().transform(formatDisplayname).optional(),
+
     username: z
-      .string()
-      .nonempty("username is required")
-      .min(3, { message: "username must be at least 3 characters" })
-      .max(32, { message: "username must be less than 32 characters" }),
-    email: z
-      .string()
-      .nonempty("email is required")
-      .email({
-        message: "Invalid email address",
+      .string({
+        description: "please enter a valid username",
+        coerce: true,
+        errorMap: () => ({ message: "please enter a valid username" }),
       })
-      .transform((email) => email.toLowerCase()),
+      .describe("enter your username")
+      .nonempty({ message: "Username is required" })
+      .min(3)
+      .max(32),
+    email: z
+      .string({
+        description: "please enter a valid email",
+        errorMap: () => ({ message: "please enter a valid email" }),
+      })
+      .describe("enter your email")
+      .email({ message: "Invalid email address" })
+      .nonempty({ message: "Email is required" })
+      .toLowerCase(),
     password: z
+      .string({
+        message: "please enter a valid password",
+        errorMap: () => ({ message: "please enter a valid password" }),
+      })
+      .describe("enter your password")
+      .nonempty({ message: "Password is required" })
+      .min(6, { message: "Password must be at least 6 characters" })
+      .max(32, { message: "Password must be at most 32 characters" }),
+    confirm_password: z
       .string()
-      .nonempty("password is required")
-      .min(6, { message: "password must be at least 6 characters" })
-      .max(32, { message: "password must be less than 32 characters" }),
-    confirm_password: z.string({
-      required_error: "confirm password is required",
-    }),
+      .nonempty({ message: "Confirm Password is required" }),
   })
   .refine((data) => data.password === data.confirm_password, {
-    message: "passwords do not match",
+    message: "Passwords do not match",
     path: ["confirm_password"],
   });
-export const loginSchema = z.object({
-  email: z
-    .string()
-    .nonempty("username is required")
-    .email({
-      message: "Invalid email address",
-    })
-    .transform((email) => email.toLowerCase()),
-  password: z
-    .string()
-    .nonempty("password is required")
-    .min(6, { message: "password must be at least 6 characters" })
-    .max(32, { message: "password must be less than 32 characters" }),
-});
-export const validateRegister = fn(async (req, res, next) => {
-  await registerSchema.parseAsync(req.body);
-  next();
-});
-
-export const validateLogin = fn(async (req, res, next) => {
-  await loginSchema.parseAsync(req.body);
-  next();
-});
+  
+export const signInSchema = z
+  .object({
+    email: z
+      .string({
+        description: "please enter a valid email",
+        errorMap: () => ({ message: "please enter a valid email" }),
+      })
+      .describe("enter your email")
+      .email({ message: "Invalid email address" })
+      .nonempty({ message: "Email is required" })
+      .toLowerCase(),
+    password: z
+      .string({
+        message: "please enter a valid password",
+        errorMap: () => ({ message: "please enter a valid password" }),
+      })
+      .describe("enter your password")
+      .nonempty({ message: "Password is required" })
+      .min(6, { message: "Password must be at least 6 characters" })
+      .max(32, { message: "Password must be at most 32 characters" }),
+  })
+  .required();

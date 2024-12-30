@@ -1,15 +1,11 @@
 import { Router } from "express";
-import { register } from "../services/auth/sign-up.service.js";
-import { login } from "../services/auth/sign-in.service.js";
-import { signOut } from "../services/auth/sign-out.service.js";
-
-import { validateRegister } from "../validation/auth.validate.js";
-// import { protectedRoute } from "../utils/token.js";
-// import { verifyToken } from "../middlewares/verifyToken.js";
-
-// router.get('/protected-route', verifyToken, protectedRoute);
+import { register } from "../services/authentication/sign-up.service.js";
+import { signInSchema, signUpSchema } from "../validation/auth.validate.js";
+import { validateData } from "../validation/validate.js";
+import { login } from "../services/authentication/sign-in.service.js";
 const router = Router();
-router.post("/sign-up", validateRegister, register);
-router.post("/sign-in", login);
-router.post("/sign-out", signOut);
-export { router as authRoutes };
+
+router.post("/sign-up", validateData(signUpSchema), register);
+router.post("/sign-in", validateData(signInSchema), login);
+
+export { router as authRouter };
