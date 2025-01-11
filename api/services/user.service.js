@@ -1,1 +1,0 @@
-import User from "../schema/user.model.js";

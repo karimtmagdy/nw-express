@@ -1,16 +1,27 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+// import { RouterAPI } from "./routes/index.js";
+import { development, port } from "./config/constants.js";
 import { database } from "./config/db.js";
-import { RouterAPI } from "./routes/index.js";
-
-
-
+import { corsOption } from "./config/corsOption.js";
+ 
 database();
 const app = express();
 app.use(express.json());
-app.use(cors());
-RouterAPI(app);
-app.listen(process.env.PORT, () => {
-  console.log("Server is running on port 8000");
+app.use(cookieParser());
+app.use(cors(corsOption));
+app.use(express.urlencoded({ extended: true }));
+
+// RouterAPI(app);
+app.get("/", (req, res) => {
+  res.send("<h1>Hello World! from vercel API NEWAVE V1.0.0 🚀</h1>");
+});
+
+app.get("/favicon.ico", (req, res) => {
+  res.status(204);
+});
+app.listen(port, () => {
+  console.log(`started ${development} on port ${port}`);
 });

@@ -1,22 +1,22 @@
-import { model, mongo, Schema, Types } from "mongoose";
-const formatDisplayname = (username) =>
-  `@${username.replace(/\s+/g, "." || "-")}`;
+import { model, Schema, set, Types } from "mongoose";
+// const formatDisplayname = (username) =>
+//   `@${username.replace(/\s+/g, "." || "-")}`;
 const userSchema = new Schema(
   {
-    display_name: {
-      type: String,
-      set: function (display_name) {
-        return display_name || formatDisplayname(this.username);
-      },
-      trim: true,
-      unique: true,
-    },
+    // display_name: {
+    //   type: String,
+    //   trim: true,
+    //   unique: true,
+    //   set: function (display_name) {
+    //     return display_name || formatDisplayname(this.username);
+    //   },
+    // },
     username: {
       type: String,
       required: true,
+      trim: true,
       minlength: 3,
       maxlength: 32,
-      trim: true,
     },
     email: {
       type: String,
@@ -55,6 +55,10 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
+    phone_number: {
+      type: String,
+      trim: true,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
@@ -72,10 +76,10 @@ const userSchema = new Schema(
     collection: "users",
   }
 );
-userSchema.pre("save", function (next) {
-  if (!this.display_name) {
-    this.display_name = formatDisplayname(this.username);
-  }
-  next();
-});
+// userSchema.pre("save", function (next) {
+//   if (!this.display_name) {
+//     this.display_name = formatDisplayname(this.username);
+//   }
+//   next();
+// });
 export default model("User", userSchema);
