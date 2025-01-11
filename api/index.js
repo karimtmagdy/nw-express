@@ -19,8 +19,11 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello World! from vercel API NEWAVE V1.0.0 🚀</h1>");
 });
 
-app.get("/favicon.ico", (req, res) => {
-  res.status(204);
+app.use((req, res, next) => {
+  if (req.originalUrl && req.originalUrl.split("/").pop() === "favicon.ico") {
+    return res.sendStatus(204);
+  }
+  next();
 });
 app.listen(port, () => {
   console.log(`started ${development} on port ${port}`);
