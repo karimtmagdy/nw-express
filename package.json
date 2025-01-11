@@ -10,7 +10,7 @@
     "random": "node -e \"console.log(crypto.randomBytes(64).toString('hex'))\""
   },
   "keywords": [],
-  "author": "",
+  "author": "karimtmagdy",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
