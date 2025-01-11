@@ -1,7 +1,7 @@
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:1573",
-  "https://nw-express.vercel.app",
+  "https://newave-store.vercel.app",
 ];
 export const corsOption = {
   origin: (origin, callback) => {
