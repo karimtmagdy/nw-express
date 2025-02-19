@@ -1,6 +1,6 @@
 const allowedOrigins = [
   "http://localhost:3000",
-  "http://localhost:1573",
+  "http://localhost:5173",
   "https://newave-store.vercel.app",
 ];
 export const corsOption = {
@@ -13,4 +13,6 @@ export const corsOption = {
   },
   credentials: true,
   optionsSuccessStatus: 200,
+  methods: "GET,POST,PUT,PATCH,DELETE",
+  allowedHeaders: "Content-Type,Authorization",
 };

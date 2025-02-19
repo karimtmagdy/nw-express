@@ -1,35 +1,46 @@
-import { model, Schema, set, Types } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 // const formatDisplayname = (username) =>
 //   `@${username.replace(/\s+/g, "." || "-")}`;
 const userSchema = new Schema(
   {
-    // display_name: {
+    // nikename: {
     //   type: String,
     //   trim: true,
     //   unique: true,
-    //   set: function (display_name) {
-    //     return display_name || formatDisplayname(this.username);
+    //   set: function (nikename) {
+    //     return nikename || formatDisplayname(this.username);
     //   },
     // },
     username: {
       type: String,
-      required: true,
+      required: [true, "username is required"],
       trim: true,
-      minlength: 3,
-      maxlength: 32,
+      minlength: [3, "username must be at least 3 characters"],
+      maxlength: [32, "username must be less than 32 characters"],
     },
     email: {
       type: String,
-      required: true,
+      required: [true, "email is required"],
       unique: true,
       lowercase: true,
       trim: true,
+      validate: {
+        validator: (v) =>
+          /^([\w-]+(?:\.[\w-]+)*)@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(v),
+        message: "Invalid email format",
+      },
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "password is required"],
       minlength: 6,
       trim: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["active", "inActive", "suspended"],
+      default: "active",
     },
     photo: {
       type: Object,
@@ -38,35 +49,29 @@ const userSchema = new Schema(
         publicId: null,
       },
     },
+    permissions: {
+      type: [String],
+      enum: ["all", "create", "delete", "update", "view"],
+      default: "view",
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user",
     },
-    slug: {
-      type: String,
-      lowercase: true,
-    },
-    gender: {
-      type: String,
-      enum: ["male", "female"],
-    },
-    bio: {
-      type: String,
-      trim: true,
-    },
-    phone_number: {
-      type: String,
-      trim: true,
-    },
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
-    isAccountVerified: {
-      type: Boolean,
-      default: false,
-    },
+    gender: { type: String, enum: ["male", "female"] },
+    bio: { type: String, trim: true },
+    slug: { type: String, lowercase: true },
+    phone: { type: Number, default: null },
+    isAccountVerified: { type: Boolean, default: false },
+    remember_me: { type: Boolean, default: false },
+    active: { type: Boolean, default: false },
+    address: [{ type: Types.ObjectId, ref: "address" }],
+    cart: [{ type: Types.ObjectId, ref: "cart" }],
+    order: [{ type: Types.ObjectId, ref: "order" }],
+    last_login: { type: Date, default: Date.now },
+    forgot_password: { type: String, default: null },
+    forgot_password_expiry: { type: Date, default: "" },
   },
   {
     minimize: false,
@@ -77,8 +82,8 @@ const userSchema = new Schema(
   }
 );
 // userSchema.pre("save", function (next) {
-//   if (!this.display_name) {
-//     this.display_name = formatDisplayname(this.username);
+//   if (!this.nikename) {
+//     this.nikename = formatDisplayname(this.username);
 //   }
 //   next();
 // });
