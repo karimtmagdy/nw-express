@@ -5,7 +5,7 @@ import { RouterAPI } from "./routes/index.js";
 import { development, port } from "./config/constants.js";
 import { database } from "./config/db.js";
 import { ConfigApp } from "./config/config.js";
-import { globalErrorHandler } from "./middlewares/global.middleware.js";
+// import { globalErrorHandler } from "./middlewares/global.middleware.js";
 
 database();
 const app = express();
@@ -26,7 +26,7 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use(globalErrorHandler);
+// app.use(globalErrorHandler);
 app.listen(port, () => {
   console.log(`started ${development} on port ${port}`);
 });

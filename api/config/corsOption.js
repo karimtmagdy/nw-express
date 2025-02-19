@@ -1,7 +1,7 @@
 const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5173",
-  "https://newave-store.vercel.app",
+  process.env.CLIENT_URL,
+  process.env.FRONTEND_URL,
+  process.env.FRONTEND_LOCALHOST_URL,
 ];
 export const corsOption = {
   origin: (origin, callback) => {

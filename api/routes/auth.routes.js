@@ -1,24 +1,19 @@
 import { Router } from "express";
-import { login } from "../services/authentication/sign-in.service.js";
-import { register } from "../services/authentication/sign-up.service.js";
-import { logout } from "../services/authentication/sign-out.service.js";
-import {
-  validateLogin,
-  validateRegister,
-} from "../validation/auth.validate.js";
-import { refrech } from "../services/authentication/refrech-token.service.js";
+import { register } from "../services/auth/sign-up.service.js";
+import { login } from "../services/auth/sign-in.service.js";
+import { logout } from "../services/auth/sign-out.service.js";
+import { refresh } from "../services/auth/refresh-token.service.js";
+import { authenticateToken } from "../middlewares/authenticateToken.js";
 
 const router = Router();
-
-router.post("/sign-up", validateRegister, register);
-router.post("/sign-in", validateLogin, login);
-router.post("/sign-out", logout);
-router.get("/refresh", refrech);
+router.post("/sign-up", register);
+router.post("/sign-in", login);
+router.post("/sign-out", authenticateToken, logout);
+router.post("/refresh", refresh);
+// router.post("/forgot-password", forgotPassword);
+// router.post("/reset-password/:token", resetPassword);
+// router.post("/google-sign-in", googleSignIn);
+// router.post("/change-password", verifyToken, changePassword);
+// router.post("/check-auth", verifyToken, checkAuth);
 
 export { router as authRoutes };
-// validateUp validateIn
-
-// import { protectedRoute } from "../utils/token.js";
-// import { verifyToken } from "../middlewares/verifyToken.js";
-
-// router.get('/protected-route', verifyToken, protectedRoute);
