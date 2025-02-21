@@ -34,8 +34,18 @@ export const privateRoute = (req, res, next) => {
   });
 };
 
+export const checkUser = (req, res, next) => {
+  verifyJWT(req, res, () => {
+    if (req.user.id === req.params.id) {
+      console.log(req.user.id, req.params.id);
+      next();
+    } else {
+      return res.status(403).json({ message: "not authorized user" });
+    }
+  });
+};
+
 // export const verifyJWT = (req, res, next) => {};
 // export const publicRoute = (req, res, next) => {};
 // export const checkAuth = (req, res, next) => {};
 // export const checkAdmin = (req, res, next) => {};
-// export const checkUser = (req, res, next) => {};

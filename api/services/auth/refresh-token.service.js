@@ -1,7 +1,7 @@
-import { COOKIE_OPTIONS, fn, generateAccessToken } from "../../lib/utils.js";
-import jwt from "jsonwebtoken";
+import { COOKIE_OPTIONS, fn } from "../../lib/utils.js";
 import User from "../../models/user.model.js";
-import { jwt_refresh_token, jwt_access_token } from "../../lib/constants.js";
+import { generateAccessToken, verifyToken } from "../../lib/token.js";
+
 export const refresh = fn(async (req, res) => {
   console.log(req.cookies);
   const refreshToken = req.cookies.refreshToken;
@@ -9,7 +9,9 @@ export const refresh = fn(async (req, res) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   try {
-    const decoded = jwt.verify(refreshToken, jwt_refresh_token);
+    const decoded = verifyToken(refreshToken, "JWT_REFRESH_TOKEN");
+    //jwt.verify(refreshToken, jwt_refresh_token);
+
     const user = await User.findById(decoded.id);
     console.log(decoded);
     if (!user) {
