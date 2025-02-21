@@ -1,23 +1,36 @@
 import asyncHandler from "express-async-handler";
-import NodeCache from "node-cache";
+import jwt from "jsonwebtoken";
+import { jwt_access_token, jwt_refresh_token } from "./constants.js";
 
 export const fn = (callback) => asyncHandler(callback);
 
 export const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
+  secure: true, //process.env.NODE_ENV === "production",
   sameSite: "None",
   maxAge: 24 * 60 * 60 * 1000,
 };
-export const cache = new NodeCache({ stdTTL: 60, checkperiod: 120 });
-export const generateCacheKey = (model, params) => {
-  const key = `${model}_${JSON.stringify(params)}`;
-  return key;
+
+export const generateAccessToken = (payload) => {
+  return jwt.sign({ ...payload }, jwt_access_token, {
+    expiresIn: "15m",
+  });
 };
 
-export const pagination = (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 100;
+export const generateRefreshToken = (payload) => {
+  return jwt.sign({ ...payload }, jwt_refresh_token, {
+    expiresIn: "1d",
+  });
+};
+
+export const verifyAccessToken = (token) => {
+  return jwt.verify(token, jwt_access_token);
+};
+
+export const getPagination = (total, query) => {
+  const page = parseInt(query.page) || 1;
+  const limit = parseInt(query.limit) || 10;
   const skip = (page - 1) * limit;
-  return { limit, skip };
+
+  return { page, limit, skip, total };
 };
