@@ -1,51 +1,30 @@
 import jwt from "jsonwebtoken";
-import {
-  invalid_token,
-  jwt_access_token,
-  no_token,
-  not_admin,
-  verification_failed,
-} from "../lib/constants.js";
-
+import { invalid_token, no_token, not_admin } from "../constants/constants.js";
 export const verifyJWT = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) return res.status(401).json({ message: no_token });
+  const auth = req.headers.authorization || req.headers.authorization;
+  if (!auth?.startsWith("Bearer "))
+    return res.status(401).json({ message1: no_token });
+  const authorized = auth.split(" ")[1];
+  const token = req.cookies.token || authorized;
+  if (!token) return res.status(401).json({ message2: no_token });
   try {
-    jwt.verify(token, jwt_access_token, (err, decode) => {
-      if (err)
-        return res.status(403).json({
-          message: verification_failed || err.message,
-        });
-      req.user = decode;
+    jwt.verify(token, process.env.JWT_ACCESS_TOKEN, (err, decode) => {
+      if (err) return res.status(403).json({ message3: `${err.message} 1` }); //|| invalid_token
+      req.user = decode.user;
       next();
-      console.log(decode);
     });
   } catch (error) {
-    return res.status(401).json({ message: invalid_token });
+    return res.status(401).json({ message4: `${error.message} 2` }); //"invalid token"
   }
 };
+
 export const privateRoute = (req, res, next) => {
   verifyJWT(req, res, () => {
     if (req.user.role === "admin") {
+      console.log(req.user);
       next();
     } else {
       return res.status(403).json({ message: not_admin });
     }
   });
 };
-
-export const checkUser = (req, res, next) => {
-  verifyJWT(req, res, () => {
-    if (req.user.id === req.params.id) {
-      console.log(req.user.id, req.params.id);
-      next();
-    } else {
-      return res.status(403).json({ message: "not authorized user" });
-    }
-  });
-};
-
-// export const verifyJWT = (req, res, next) => {};
-// export const publicRoute = (req, res, next) => {};
-// export const checkAuth = (req, res, next) => {};
-// export const checkAdmin = (req, res, next) => {};

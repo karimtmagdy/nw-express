@@ -1,8 +1,9 @@
 import ApiError from "../lib/api.error.js";
 import { globalErrorHandler } from "./globalMiddleware.js";
-export const Middleware = (app) => {
+
+export const MiddlewareApplication = (app) => {
   app.all("*", (req, res, next) => {
-    next(new ApiError(`Can't find ${req.originalUrl} on this server!`, 404));
+    next(new ApiError(`Can't find this route: ${req.originalUrl}`, 400));
   });
   app.use((req, res, next) => {
     if (req.originalUrl && req.originalUrl.split("/").pop() === "favicon.ico") {

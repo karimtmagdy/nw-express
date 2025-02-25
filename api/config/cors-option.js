@@ -1,8 +1,6 @@
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  process.env.FRONTEND_URL,
-  process.env.FRONTEND_LOCALHOST_URL,
-];
+import { client, frontend, frontend_local } from "../constants/env.js";
+
+const allowedOrigins = [client, frontend, frontend_local];
 export const corsOption = {
   origin: (origin, callback) => {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {

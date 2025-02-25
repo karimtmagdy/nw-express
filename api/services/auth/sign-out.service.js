@@ -1,12 +1,10 @@
-import { COOKIE_OPTIONS } from "../../lib/utils.js";
-export const logout = (req, res) => {
-  res.clearCookie("token", {
-    ...COOKIE_OPTIONS,
-    maxAge: 0,
-  });
-  res.clearCookie("refresh-token", {
-    ...COOKIE_OPTIONS,
-    maxAge: 0,
-  });
+import { fn } from "../../utils.js";
+import User from "../../models/user.model.js";
+import ApiError from "../../lib/api.error.js";
+export const logout = fn(async (req, res) => {
+  const user = await User.findById(req.user.id);
+  if (!user) return new ApiError("User not found", 404);
+  res.clearCookie("token", { httpOnly: true, secure: true, maxAge: 0 });
+  res.clearCookie("refreshToken", { httpOnly: true, secure: true, maxAge: 0 });
   res.status(200).json({ status: "success", message: "user signed out." });
-};
+});
