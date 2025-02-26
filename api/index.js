@@ -27,3 +27,8 @@ process.on("unhandledRejection", (err) => {
   //   process.exit(1);
   // });
 });
+process.on("SIGINT", async () => {
+  console.log("received canceling database connection");
+  await database();
+  process.exit(0);
+});

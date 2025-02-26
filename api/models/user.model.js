@@ -85,7 +85,7 @@ const userSchema = new Schema(
     likes: [{ type: Types.ObjectId, ref: "likes" }],
     favorite: [{ type: Types.ObjectId, ref: "favorite" }],
     reset_password_token: String,
-    reset_password_expire: Date,
+    reset_password_expire_at: Date,
     forgot_password: String,
     forgot_password_expiry: Date,
     verification_token: String,

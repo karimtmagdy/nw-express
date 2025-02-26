@@ -1,6 +1,11 @@
-import { client, frontend, frontend_local } from "../constants/env.js";
+// import { client, frontend, frontend_local } from "../constants/env.js";
 
-const allowedOrigins = [client, frontend, frontend_local];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  "https://newave-store.vercel.app",
+];
+// const allowedOrigins = [client, frontend, frontend_local];
 export const corsOption = {
   origin: (origin, callback) => {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
