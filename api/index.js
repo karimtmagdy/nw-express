@@ -1,16 +1,25 @@
 import "dotenv/config";
 import express from "express";
-import { development, port } from "./constants/env.js";
-// import { startServerApplication } from "./server.js";
-// import { database } from ".";
 
-// database();
+// import { startServerApplication } from "./server.js";
+import { database } from "./config/db.js";
+
+database();
 const app = express();
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
   console.log(
     `Server started in ${
-      development ? "development" : "production"
+      process.env.NODE_ENV ? "development" : "production"
     } mode on port ${port}`
   );
+});
+process.on("unhandledRejection", (err) => {
+  console.error(`Unhandled Rejection: (${err.name} - ${err.message})`);
+  server.close(() => {
+    console.error("Shutting down server...");
+    process.exit(1);
+  });
 });
