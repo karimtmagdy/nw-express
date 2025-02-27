@@ -9,5 +9,5 @@ const SUCCESS = "success";
 const ERROR = "error";
 const tag = "<h1>hello world</h1>";
 const styled =
-  "background-color:black; display:flex; height:100%; margin:0; padding:0; text-transform:capitalize; position:fixed; align-items:center; font-size:50px; width:100%; left:0; top:0; justify-content:center;";
+  "background-color:black;display:flex;height:100%;margin:0;padding:0;top:0; text-transform:capitalize;user-select:none;position:fixed;align-items:center; font-size:50px;width:100%;left:0;justify-content:center;";
 export const pageWelcome = `<div style="color:white; ${styled}">${tag}</div>`;
