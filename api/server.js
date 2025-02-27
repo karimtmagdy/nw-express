@@ -1,3 +1,4 @@
+import { database } from "./config/db.js";
 import { development, port } from "./constants/env.js";
 
 export const startServerApplication = (app) => {
@@ -27,7 +28,7 @@ export const startServerApplication = (app) => {
   process.on("SIGINT", async () => {
     console.log("Received SIGINT, shutting down gracefully...");
     try {
-      await database.close(); // تأكد من أن لديك دالة `close` في `database`
+      database; //.close() // تأكد من أن لديك دالة `close` في `database`
       console.log("Database connection closed.");
     } catch (error) {
       console.error("Error closing database connection:", error);
