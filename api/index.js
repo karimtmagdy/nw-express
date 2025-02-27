@@ -3,11 +3,14 @@ import express from "express";
 
 // import { startServerApplication } from "./server.js";
 import { database } from "./config/db.js";
+import { RouterApiApplication } from "./routes/index.js";
 
 database();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+RouterApiApplication(app);
 const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
   console.log(
