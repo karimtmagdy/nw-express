@@ -4,6 +4,7 @@ import express from "express";
 // import { startServerApplication } from "./server.js";
 import { database } from "./config/db.js";
 import { RouterApiApplication } from "./routes/index.js";
+import { pageWelcome } from "./constants/constants.js";
 
 database();
 const app = express();
@@ -11,8 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
-})
+  res.send(pageWelcome);
+});
 RouterApiApplication(app);
 const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
