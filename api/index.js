@@ -10,6 +10,9 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+})
 RouterApiApplication(app);
 const port = process.env.PORT || 8000;
 const server = app.listen(port, () => {
