@@ -5,7 +5,7 @@ import { z } from "zod";
 export const getUsersSchema = z.object({});
 
 // جلب مستخدم واحد
-export const getUserSchema = z.object({
+export const validateGetSingleUser  = z.object({
   id: z.string().regex(/^[0-9a-fA-F]{24}$/, "Invalid ObjectId"),
 });
 
