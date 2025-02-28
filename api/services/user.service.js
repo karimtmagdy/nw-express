@@ -15,23 +15,19 @@ import { fn, getPagination } from "../lib/utils.js";
 export const createUser = fn(async (req, res) => {
   const { username, email, password, gender } = req.body;
   if (!username || !email || !password || !gender)
-    return res
-      .status(400)
-      .json({ status: "fail", message: "all fields empty are required" });
+    return res.status(400).json({ message: "all fields empty are required" });
   const existing = await User.exists({ email }).exec();
-  if (existing)
-    return res
-      .status(400)
-      .json({ status: "fail", message: "user already exists" });
+  if (existing) return res.status(400).json({ message: "user already exists" });
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
-  const user = await User.create({
+  const userdata = {
     username,
     email,
     password: hashPassword,
     gender,
     slug: slugify(username),
-  });
+  };
+  const user = await User.create(userdata);
   if (!user) res.status(400).json({ message: "failed to create user" });
   const userObject = user.toObject();
   delete userObject.joinedAt;
@@ -75,8 +71,7 @@ export const getUsers = fn(async (req, res) => {
 export const getSingleUserById = fn(async (req, res) => {
   const { id } = req.params;
   const user = await User.findById({ _id: id }).select("-password");
-  if (!user)
-    res.status(404).json({ status: "fail", message: "user not found" });
+  if (!user) res.status(404).json({ message: "user not found" });
   res.status(200).json({ status: "success", user });
 });
 
@@ -111,9 +106,7 @@ export const updateUser = fn(async (req, res) => {
   );
   const user = await User.findByIdAndUpdate(id, updates, { new: true });
 
-  if (!user) {
-    res.status(404).json({ status: "fail", message: "cannot found this user" });
-  }
+  if (!user) return res.status(404).json({ message: "cannot found this user" });
   const userObject = user.toObject();
   delete userObject.password;
   res.status(200).json({
@@ -132,9 +125,7 @@ export const updateUser = fn(async (req, res) => {
 export const deleteUser = fn(async (req, res) => {
   const { id } = req.params;
   const user = await User.findByIdAndDelete({ _id: id });
-  if (!user) {
-    res.status(404).json({ status: "fail", message: "cannot found this user" });
-  }
+  if (!user) return res.status(404).json({ message: "cannot found this user" });
   res.status(200).json({
     status: "success",
     messsage: "deleted user successfully",
