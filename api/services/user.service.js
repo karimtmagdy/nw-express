@@ -55,9 +55,7 @@ export const getUsers = fn(async (req, res) => {
     .limit(limit)
     .lean()
     .select({ password: false });
-  if (!users) res.status(404).json({ message: "failed to retrieve users" });
-  if (users.length === 0)
-    return res.status(404).json({ message: "No users found." });
+  if (!users) return res.status(404).json({ message: "No users found." });
   const results = total;
   res.status(200).json({ results, pages, page, status: "success", users });
 });
@@ -71,7 +69,7 @@ export const getUsers = fn(async (req, res) => {
 export const getSingleUserById = fn(async (req, res) => {
   const { id } = req.params;
   const user = await User.findById({ _id: id }).select("-password");
-  if (!user) res.status(404).json({ message: "user not found" });
+  if (!user) return res.status(404).json({ message: "user not found" });
   res.status(200).json({ status: "success", user });
 });
 

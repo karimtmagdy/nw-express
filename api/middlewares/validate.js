@@ -28,10 +28,11 @@ export const validateMiddleware = (schema) => async (req, res, next) => {
     return res.status(400).json({ error: error.errors });
   }
 };
+
 export const validateData = (schema) => (req, res, next) => {
   const { error } = schema.parse(req.body);
   next();
   if (error) {
-    return res.status(400).json({ error: error.map((e) => e.message) });
+    return res.status(400).json({ error: error.errors.map((e) => e.message) });
   }
 };
