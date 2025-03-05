@@ -3,9 +3,6 @@ import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { fn, getPagination } from "../lib/utils.js";
 
-// import { cache, generateCacheKey } from "../lib/utils.js";
-// available
-
 /**
  * @description Create user
  * @method      POST
@@ -17,7 +14,7 @@ export const createUser = fn(async (req, res) => {
   if (!username || !email || !password || !gender)
     return res.status(400).json({ message: "all fields empty are required" });
   const existing = await User.exists({ email }).exec();
-  if (existing) return res.status(400).json({ message: "user already exists" });
+  if (existing) return res.status(409).json({ message: "user already exists" });
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt);
   const userdata = {
@@ -47,9 +44,6 @@ export const getUsers = fn(async (req, res) => {
   const total = await User.countDocuments();
   const { page, limit, skip } = getPagination(total, req.query);
   const pages = Math.ceil(total / limit);
-  // const casheKey = generateCacheKey("User", { page, limit });
-  // const cachedData = cache.get(casheKey);
-  // if (cachedData)  return res.json({ cachedData });
   const users = await User.find({})
     .skip(skip)
     .limit(limit)
@@ -103,7 +97,6 @@ export const updateUser = fn(async (req, res) => {
     (key) => updates[key] === undefined && delete updates[key]
   );
   const user = await User.findByIdAndUpdate(id, updates, { new: true });
-
   if (!user) return res.status(404).json({ message: "cannot found this user" });
   const userObject = user.toObject();
   delete userObject.password;
@@ -124,6 +117,7 @@ export const deleteUser = fn(async (req, res) => {
   const { id } = req.params;
   const user = await User.findByIdAndDelete({ _id: id });
   if (!user) return res.status(404).json({ message: "cannot found this user" });
+  // clearCache("User", { id });
   res.status(200).json({
     status: "success",
     messsage: "deleted user successfully",

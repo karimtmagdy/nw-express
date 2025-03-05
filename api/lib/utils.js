@@ -4,7 +4,7 @@ export const fn = (callback) => asyncHandler(callback);
 
 export const COOKIE_OPTIONS = {
   httpOnly: true,
-  secure: true, //process.env.NODE_ENV === "production",
+  secure:  process.env.NODE_ENV === "production",
   sameSite: "None",
   maxAge: 24 * 60 * 60 * 1000,
 };

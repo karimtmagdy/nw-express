@@ -1,0 +1,6 @@
+// export const mfa =fn(async(req,res)=>{})
+// export const 2mfa =fn(async(req,res)=>{})
+// export const setup =fn(async(req,res)=>{})
+// export const verify =fn(async(req,res)=>{})
+// export const disable =fn(async(req,res)=>{})
+// export const enable =fn(async(req,res)=>{})
