@@ -10,10 +10,9 @@ import {
 } from "../services/user.service.js";
 import {
   validateCreateUser,
-  validateDeleteUser,
-  validateGetSingleUser,
   validateUpdateUser,
 } from "../validation/user.validate.js";
+import { validID } from "../middlewares/validID.js";
 
 const router = Router();
 router.use(isAdmin);
@@ -21,8 +20,8 @@ router.use(isAdmin);
 router.route("/").get(getUsers).post(validate(validateCreateUser), createUser);
 router
   .route("/:id")
-  .get(validate(validateGetSingleUser, "params"), getSingleUserById)
+  .get(validID, getSingleUserById)
   .patch(validate(validateUpdateUser, "body"), updateUser)
-  .delete(validate(validateDeleteUser, "params"), deleteUser);
+  .delete(validID, deleteUser);
 
 export { router as usersRoutes };

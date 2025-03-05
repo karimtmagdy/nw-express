@@ -8,11 +8,16 @@ import {
   singleSubCategory,
   updateSubCategory,
 } from "../services/subcategory.service.js";
+import {
+  validateDeleteSubCategory,
+  validateGetSingleSubCategory,
+} from "../validation/subcategory.validate.js";
+import { validID } from "../middlewares/validID.js";
 const router = Router();
 router.route("/").post(isAdmin, createSubCategory).get(getSubCategories);
 router
   .route("/:id")
-  .get(singleSubCategory)
-  .patch(isAdmin, validate("body"), updateSubCategory)
-  .delete(isAdmin, validate("params"), deleteSubCategory);
+  .get(validID, singleSubCategory)
+  .patch(isAdmin, updateSubCategory)
+  .delete(isAdmin, validID, deleteSubCategory);
 export { router as subcategoriesRoutes };

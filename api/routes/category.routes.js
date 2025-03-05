@@ -9,11 +9,10 @@ import {
 } from "../services/category.service.js";
 import {
   validateCreateCategory,
-  validateDeleteCategory,
-  validateGetSingleCategory,
   validateUpdateCategory,
 } from "../validation/category.validate.js";
 import { isAdmin } from "../middlewares/JWTauth.js";
+import { validID } from "../middlewares/validID.js";
 const router = Router();
 router
   .route("/")
@@ -21,8 +20,8 @@ router
   .get(getCategories);
 router
   .route("/:id")
-  .get(validate(validateGetSingleCategory, "params"), singleCategory)
+  .get(validID, singleCategory)
   .patch(isAdmin, validate(validateUpdateCategory, "body"), updateCategory)
-  .delete(isAdmin, validate(validateDeleteCategory, "params"), deleteCategory);
+  .delete(isAdmin, validID, deleteCategory);
 
 export { router as categoriesRoutes };
