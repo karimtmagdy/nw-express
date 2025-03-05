@@ -9,10 +9,7 @@ import {
   updateSubCategory,
 } from "../services/subcategory.service.js";
 const router = Router();
-router
-  .route("/")
-  .post(isAdmin, validate("body"), createSubCategory)
-  .get(getSubCategories);
+router.route("/").post(isAdmin, createSubCategory).get(getSubCategories);
 router
   .route("/:id")
   .get(singleSubCategory)

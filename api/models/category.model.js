@@ -10,9 +10,13 @@ const categorySchema = new Schema(
       maxlength: [32, "category must be less than 32 characters"],
     },
     image: String,
-    description: { type: String},
+    description: { type: String },
     slug: { type: String, lowercase: true },
-    createdBy: { type: Types.ObjectId, ref: "User" },
+    createdBy: {
+      type: Types.ObjectId,
+      ref: "User",
+      required: "sub category must have a creator",
+    },
   },
   { timestamps: true, collection: "categories" }
 );

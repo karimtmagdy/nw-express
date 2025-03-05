@@ -15,11 +15,11 @@ import {
  * @access      private
  */
 export const createSubCategory = fn(async (req, res) => {
-  const { name, category, createdBy } = req.body;
+  const { name, category , createdBy } = req.body;
   const subCategory = await SubCategory.create({
     name,
     category,
-    createdBy,
+    createdBy : createdBy,
     slug: slugify(name),
   });
   res.status(201).json({
@@ -45,7 +45,7 @@ export const getSubCategories = fn(async (req, res, next) => {
     })
     .populate({
       path: "createdBy",
-    
+      select: "username",
     })
     .skip(skip)
     .limit(limit)
