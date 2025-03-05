@@ -18,6 +18,16 @@ app.get("/", (req, res) => {
 });
 if (development === "development") app.use(morgan("dev"));
 RouterApiApplication(app);
+
+app.all("*", (req, res, next) => {
+  next(new Error(`Can't find this route: ${req.originalUrl}`, 400));
+});
+app.use((req, res, next) => {
+  if (req.originalUrl && req.originalUrl.split("/").pop() === "favicon.ico") {
+    return res.status(204);
+  }
+  next();
+});
 const server = app
   .listen(port, () => {
     console.log(

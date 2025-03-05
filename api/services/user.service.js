@@ -2,6 +2,13 @@ import slugify from "slugify";
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
 import { fn, getPagination } from "../lib/utils.js";
+import {
+  delete_success,
+  failed_create,
+  fields_empty,
+  not_available,
+  update_success,
+} from "../constants/constants.js";
 
 /**
  * @description Create user
@@ -12,7 +19,7 @@ import { fn, getPagination } from "../lib/utils.js";
 export const createUser = fn(async (req, res) => {
   const { username, email, password, gender } = req.body;
   if (!username || !email || !password || !gender)
-    return res.status(400).json({ message: "all fields empty are required" });
+    return res.status(400).json({ message: fields_empty });
   const existing = await User.exists({ email }).exec();
   if (existing) return res.status(409).json({ message: "user already exists" });
   const salt = await bcrypt.genSalt(10);
@@ -25,7 +32,7 @@ export const createUser = fn(async (req, res) => {
     slug: slugify(username),
   };
   const user = await User.create(userdata);
-  if (!user) res.status(400).json({ message: "failed to create user" });
+  if (!user) res.status(400).json({ message: `${failed_create} user` });
   const userObject = user.toObject();
   delete userObject.joinedAt;
   delete userObject.updatedAt;
@@ -63,7 +70,7 @@ export const getUsers = fn(async (req, res) => {
 export const getSingleUserById = fn(async (req, res) => {
   const { id } = req.params;
   const user = await User.findById({ _id: id }).select("-password");
-  if (!user) return res.status(404).json({ message: "user not found" });
+  if (!user) return res.status(404).json({ message: `user ${not_available}` });
   res.status(200).json({ status: "success", user });
 });
 
@@ -97,13 +104,13 @@ export const updateUser = fn(async (req, res) => {
     (key) => updates[key] === undefined && delete updates[key]
   );
   const user = await User.findByIdAndUpdate(id, updates, { new: true });
-  if (!user) return res.status(404).json({ message: "cannot found this user" });
+  if (!user) return res.status(404).json({ message: `user ${not_available}` });
   const userObject = user.toObject();
   delete userObject.password;
   res.status(200).json({
     status: "success",
     user: userObject,
-    messsage: "updated user successfully",
+    messsage: `user ${update_success}`,
   });
 });
 
@@ -116,10 +123,10 @@ export const updateUser = fn(async (req, res) => {
 export const deleteUser = fn(async (req, res) => {
   const { id } = req.params;
   const user = await User.findByIdAndDelete({ _id: id });
-  if (!user) return res.status(404).json({ message: "cannot found this user" });
+  if (!user) return res.status(404).json({ message: `user ${not_available}` });
   // clearCache("User", { id });
   res.status(200).json({
     status: "success",
-    messsage: "deleted user successfully",
+    messsage: `user ${delete_success}`,
   });
 });

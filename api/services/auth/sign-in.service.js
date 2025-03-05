@@ -2,13 +2,14 @@ import { fn } from "../../lib/utils.js";
 import User from "../../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { signToken } from "../../lib/token.js";
+import { fields_empty, not_available } from "../../constants/constants.js";
 
 export const login = fn(async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
-    return res.status(400).json({ message: "all fields empty are required" });
+    return res.status(400).json({ message: fields_empty });
   const user = await User.findOne({ email }).exec();
-  if (!user) return res.status(400).json({ message: "user not available" });
+  if (!user) return res.status(400).json({ message: `user ${not_available}` });
   const match = bcrypt.compare(password, user.password);
   if (!match) return res.status(400).json({ message: "Invalid credentials" });
   const pay = { id: user._id, role: user.role, email: user.email };
