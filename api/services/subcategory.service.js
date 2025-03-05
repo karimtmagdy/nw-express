@@ -7,7 +7,6 @@ import {
   not_available,
   update_success,
 } from "../constants/constants.js";
-// import ApiError from "../lib/api.error.js";
 
 /**
  * @description create subcategory
@@ -46,7 +45,7 @@ export const getSubCategories = fn(async (req, res, next) => {
     })
     .populate({
       path: "createdBy",
-      select: "username",
+    
     })
     .skip(skip)
     .limit(limit)
