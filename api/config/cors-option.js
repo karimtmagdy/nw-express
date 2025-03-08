@@ -14,8 +14,12 @@ export const corsOption = {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
-  optionsSuccessStatus: 200,
-  methods: "GET,POST,PUT,PATCH,DELETE",
-  allowedHeaders: "Content-Type,Authorization",
+  credentials: true, // السماح بإرسال الكوكيز
+  methods: ["GET POST PUT PATCH DELETE"], // السماح بهذه الطلبات فقط
+  allowedHeaders: ["Content-Type", "Authorization"], // السماح بهذه الهيدرات فقط
 };
+
+//origin: "http://localhost:5173", // السماح بطلبات من هذا الدومين فقط
+   
+    
+   

@@ -4,13 +4,24 @@ import express from "express";
 import { database } from "./config/db.js";
 import { RouterApiApplication } from "./routes/index.js";
 import { pageWelcome } from "./constants/constants.js";
-// import { ConfigurationApplication } from "./config/config.js";
-import { development, port } from "./constants/env.js";
 
+import { development, port } from "./constants/env.js";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import morgan from "morgan";
+import { corsOption } from "./config/cors-option.js";
 database();
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors(corsOption));
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: false,
+    })
+  );
 // ConfigurationApplication(app);
 
 app.get("/", (req, res) => {

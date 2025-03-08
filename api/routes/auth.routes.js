@@ -7,7 +7,7 @@ import { signInSchema, signUpSchema } from "../validation/auth.validate.js";
 
 const router = Router();
 router.post("/sign-up", validated(signUpSchema), register);
-router.post("/sign-in", validate(signInSchema, "body"), login);
+router.post("/sign-in", login);
 // router.get("/refresh", refresh);
 router.post("/sign-out", logout);
 export { router as authRoutes };
