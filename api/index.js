@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOption));
+app.options("*", cors(corsOption));
   app.use(
     helmet({
       crossOriginResourcePolicy: false,
