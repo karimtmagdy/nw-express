@@ -4,9 +4,9 @@
 // const allowedOrigins = [client, frontend, frontend_local];
 
 const allowedOrigins = [
-  // "http://localhost:3000",
+  "http://localhost:3000",
   "http://localhost:5173",
-  // "https://newave-store.vercel.app",
+  "https://newave-store.vercel.app",
 ];
 
 export const corsOption = {
