@@ -24,7 +24,6 @@ export const login = fn(async (req, res) => {
   delete userObject.joinedAt;
   delete userObject.updatedAt;
   await user.save();
-  res.cookie("token", token, { httpOnly: true, secure: true });
   // res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true });
   res.status(200).json({
     status: "success",
