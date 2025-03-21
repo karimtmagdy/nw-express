@@ -14,5 +14,5 @@ export const Invalid_credentials = "Invalid credentials!";
 
 const tag = "<h1>NEWAVE STORE API</h1>";
 const styled =
-  "background-color:black;display:flex;height:100%;margin:0;padding:0;top:0; text-transform:capitalize;user-select:none;position:fixed;align-items:center; font-size:50px;width:100%;left:0;justify-content:center;";
-export const pageWelcome = `<div style="color:white; ${styled}">${tag}</div>`;
+  "background-color:black;color:white;display:flex;height:100%;margin:0;padding:0;top:0;text-transform:capitalize;user-select:none;position:fixed;align-items:center;font-size:50px;width:100%;left:0;justify-content:center;";
+export const pageWelcome = `<div style="${styled}">${tag}</div>`;

@@ -1,4 +1,5 @@
 import "dotenv/config";
+import "express-async-errors";
 import express from "express";
 // import { startServerApplication } from "./server.js";
 import { database } from "./config/db.js";
@@ -8,7 +9,7 @@ import { pageWelcome } from "./constants/constants.js";
 import { development, port } from "./constants/env.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import helmet from "helmet";
+// import helmet from "helmet";
 import morgan from "morgan";
 import { corsOption } from "./config/cors-option.js";
 database();
@@ -17,12 +18,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOption));
- 
-  app.use(
-    helmet({
-      crossOriginResourcePolicy: false,
-    })
-  );
+
+// app.use(
+//   helmet({
+//     crossOriginResourcePolicy: false,
+//   })
+// );
 // ConfigurationApplication(app);
 
 app.get("/", (req, res) => {
@@ -40,7 +41,8 @@ app.use((req, res, next) => {
   }
   next();
 });
-const server = app
+// const server =
+app
   .listen(port, () => {
     console.log(
       `Server started in ${
@@ -54,10 +56,10 @@ const server = app
       process.exit(1);
     }
   });
-process.on("unhandledRejection", (err) => {
-  console.error(`Unhandled Rejection: (${err.name} - ${err.message})`);
-  server.close(() => {
-    console.error("Shutting down server...");
-    process.exit(1);
-  });
-});
+// process.on("unhandledRejection", (err) => {
+//   console.error(`Unhandled Rejection: (${err.name} - ${err.message})`);
+//   server.close(() => {
+//     console.error("Shutting down server...");
+//     process.exit(1);
+//   });
+// });

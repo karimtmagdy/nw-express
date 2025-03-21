@@ -15,7 +15,7 @@ export const login = fn(async (req, res) => {
   const pay = { id: user._id, role: user.role, email: user.email };
   const token = signToken(pay, "JWT_ACCESS_TOKEN", "1m");
 
-  const id = user._id;
+  // const id = user._id;
   // const refreshToken = signToken(id, "JWT_REFRESH_TOKEN", "2m");
   user.last_login = new Date();
   // user.refreshToken = refreshToken;
@@ -24,6 +24,7 @@ export const login = fn(async (req, res) => {
   delete userObject.joinedAt;
   delete userObject.updatedAt;
   await user.save();
+  res.cookie("token", token);
   // res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true });
   res.status(200).json({
     status: "success",

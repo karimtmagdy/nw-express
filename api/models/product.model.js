@@ -37,7 +37,7 @@ const productSchema = new Schema(
       default: 0,
       required: [true, "product quantity is required"],
     },
-    raing: {
+    rating: {
       type: Number,
       default: 0,
       min: [0, "rating must be at least 0"],
