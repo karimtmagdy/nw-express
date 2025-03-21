@@ -17,6 +17,9 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+app.use('/api', cors(), (req, res, next) => {
+  next();
+});
 app.use(cors(corsOptions));
 
 // app.use(
