@@ -11,13 +11,13 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 // import helmet from "helmet";
 import morgan from "morgan";
-import { corsOption } from "./config/cors-option.js";
+import { corsOptions } from "./config/cors-option.js";
 database();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors(corsOption));
+app.use(cors(corsOptions));
 
 // app.use(
 //   helmet({
