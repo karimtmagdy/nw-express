@@ -4,25 +4,6 @@ const allowedOrigins = [
   "https://newave-store.vercel.app",
 ];
 
-// export const corsOption = {
-//   origin: (origin, callback) => {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-
-//   methods: ["GET", "POST", "PATCH", "DELETE"],
-//   allowedHeaders: [
-//     "Content-Type",
-//     "Access-Control-Allow-Origin",
-//     "Authorization",
-//     "Origin",
-//     "Accept",
-//   ],
-// };
 export const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps, curl, etc)
@@ -35,6 +16,6 @@ export const corsOptions = {
     }
   },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   credentials: true,
 };
