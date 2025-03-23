@@ -16,13 +16,13 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-// app.use(cors({ credentials: true, origin:'http://localhost:3000' }));
-app.use(cors({ credentials: true, ...corsOptions }));
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false,
-  })
-);
+app.use(cors({ credentials: true, origin:'http://localhost:3000' }));
+// app.use(cors({ credentials: true, ...corsOptions }));
+// app.use(
+//   helmet({
+//     crossOriginResourcePolicy: false,
+//   })
+// );
 // ConfigurationApplication(app);
 app.get("/", (req, res) => {
   res.send(pageWelcome);
