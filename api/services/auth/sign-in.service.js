@@ -13,7 +13,7 @@ export const login = fn(async (req, res) => {
   const match = bcrypt.compare(password, user.password);
   if (!match) return res.status(400).json({ message: "Invalid credentials" });
   const pay = { id: user._id, role: user.role, email: user.email };
-  const token = signToken(pay, "JWT_ACCESS_TOKEN", "1m");
+  const token = signToken(pay, "JWT_ACCESS_TOKEN", "1h");
 
   // const id = user._id;
   // const refreshToken = signToken(id, "JWT_REFRESH_TOKEN", "2m");
