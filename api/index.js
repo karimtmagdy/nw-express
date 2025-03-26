@@ -16,7 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ credentials: true, origin:'http://localhost:3000' }));
+app.use(cors({ credentials: true, origin: true, ...corsOptions }));
 // app.use(cors({ credentials: true, ...corsOptions }));
 // app.use(
 //   helmet({
