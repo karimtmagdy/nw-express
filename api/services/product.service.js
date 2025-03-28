@@ -15,21 +15,21 @@ import {
  * @access      private
  */
 
-export const createCategory = fn(async (req, res, next) => {
-  const { name    } = req.body;
-  const product = await Product.create({
-    name,
+// export const createCategory = fn(async (req, res, next) => {
+//   const { name    } = req.body;
+//   const product = await Product.create({
+//     name,
    
-    slug: slugify(name),
-  });
-  if (!product) res.status(400).json({ message: `${failed_create} product` });
-  await product.save();
-  res.status(201).json({
-    status: "success",
-    product,
-    messsage: `product ${create_success}`,
-  });
-});
+//     slug: slugify(name),
+//   });
+//   if (!product) res.status(400).json({ message: `${failed_create} product` });
+//   await product.save();
+//   res.status(201).json({
+//     status: "success",
+//     product,
+//     messsage: `product ${create_success}`,
+//   });
+// });
 
 /**
  * @description get all products
@@ -56,12 +56,12 @@ export const getProducts = fn(async (req, res, next) => {
  * @access      private
  */
 
-export const singleProduct = fn(async (req, res, next) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
-  if (!product) res.status(404).json({ message: `product ${not_available}` });
-  res.status(200).json({ status: "success", product });
-});
+// export const singleProduct = fn(async (req, res, next) => {
+//   const { id } = req.params;
+//   const product = await Product.findById(id);
+//   if (!product) res.status(404).json({ message: `product ${not_available}` });
+//   res.status(200).json({ status: "success", product });
+// });
 
 /**
  * @description update product by id
@@ -70,22 +70,22 @@ export const singleProduct = fn(async (req, res, next) => {
  * @access      private
  */
 
-export const updateProduct = fn(async (req, res, next) => {
-  const { id } = req.params;
-  const { name } = req.body;
-  req.body.slug = slugify(req.body.title);
-  const product = await Product.findOneAndUpdate(
-    { _id: id },
-    { name, slug: slugify(name) },
-    { new: true }
-  );
-  if (!product) res.status(404).json({ message: `product ${not_available}` });
-  res.status(200).json({
-    status: "success",
-    product,
-    messsage: `product ${update_success}`,
-  });
-});
+// export const updateProduct = fn(async (req, res, next) => {
+//   const { id } = req.params;
+//   const { name } = req.body;
+//   req.body.slug = slugify(req.body.title);
+//   const product = await Product.findOneAndUpdate(
+//     { _id: id },
+//     { name, slug: slugify(name) },
+//     { new: true }
+//   );
+//   if (!product) res.status(404).json({ message: `product ${not_available}` });
+//   res.status(200).json({
+//     status: "success",
+//     product,
+//     messsage: `product ${update_success}`,
+//   });
+// });
 
 /**
  * @description delete product by id
@@ -94,11 +94,11 @@ export const updateProduct = fn(async (req, res, next) => {
  * @access      private
  */
 
-export const deleteProduct = fn(async (req, res, next) => {
-  const { id } = req.params;
-  const product = await Product.findByIdAndDelete(id);
-  if (!category) res.status(404).json({ message: `product ${not_available}` });
-  res
-    .status(200)
-    .json({ status: "success", messsage: `product ${delete_success}` });
-});
+// export const deleteProduct = fn(async (req, res, next) => {
+//   const { id } = req.params;
+//   const product = await Product.findByIdAndDelete(id);
+//   if (!category) res.status(404).json({ message: `product ${not_available}` });
+//   res
+//     .status(200)
+//     .json({ status: "success", product, messsage: `product ${delete_success}` });
+// });
