@@ -15,7 +15,6 @@ const categorySchema = new Schema(
     createdBy: {
       type: Types.ObjectId,
       ref: "User",
-      required: "sub category must have a creator",
     },
   },
   { timestamps: true, collection: "categories" }

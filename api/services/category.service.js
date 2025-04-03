@@ -15,10 +15,9 @@ import {
  * @access      private
  */
 export const createCategory = fn(async (req, res, next) => {
-  const { name, createdBy } = req.body;
+  const { name } = req.body;
   const category = await Category.create({
     name,
-    createdBy: createdBy,
     slug: slugify(name),
   });
   if (!category) res.status(400).json({ message: `${failed_create} category` });
