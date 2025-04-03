@@ -16,7 +16,7 @@ import { validID } from "../middlewares/validID.js";
 const router = Router();
 router
   .route("/")
-  .post(isAdmin, validate(validateCreateCategory, "body"), createCategory)
+  .post(isAdmin,  createCategory)
   .get(getCategories);
 router
   .route("/:id")
