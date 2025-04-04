@@ -1,6 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 const Status = ["active", "inactive", "banned", "suspended"];
-const Roles = ["user", "admin"];
+const Roles = ["user", "admin" , "manager" , "moderator" , "editor"  , "guest"];
+ 
 const Genders = ["male", "female"];
 const Permission = [
   "users:create",

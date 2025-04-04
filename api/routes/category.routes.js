@@ -8,7 +8,6 @@ import {
   updateCategory,
 } from "../services/category.service.js";
 import {
-  validateCreateCategory,
   validateUpdateCategory,
 } from "../validation/category.validate.js";
 import { isAdmin } from "../middlewares/JWTauth.js";
