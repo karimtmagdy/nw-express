@@ -17,8 +17,8 @@ import {
  * @access      private
  */
 export const createUser = fn(async (req, res) => {
-  const { username, email, password, gender } = req.body;
-  if (!username || !email || !password || !gender)
+  const { username, email, password, } = req.body;
+  if (!username || !email || !password   )
     return res.status(400).json({ message: fields_empty });
   const existing = await User.exists({ email }).exec();
   if (existing) return res.status(409).json({ message: "user already exists" });
@@ -28,7 +28,7 @@ export const createUser = fn(async (req, res) => {
     username,
     email,
     password: hashPassword,
-    gender,
+   
     slug: slugify(username),
   };
   const user = await User.create(userdata);

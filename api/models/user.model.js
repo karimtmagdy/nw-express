@@ -1,45 +1,12 @@
 import { model, Schema, Types } from "mongoose";
 const Status = ["active", "inactive", "banned", "suspended"];
-const Roles = ["user", "admin" , "manager" , "moderator" , "editor"  , "guest"];
- 
 const Genders = ["male", "female"];
-const Permission = [
-  "users:create",
-  "users:read",
-  "users:update",
-  "users:delete",
-  "categories:create",
-  "categories:read",
-  "categories:update",
-  "categories:delete",
-  "subcategories:create",
-  "subcategories:read",
-  "subcategories:update",
-  "subcategories:delete",
-  "product:create",
-  "product:read",
-  "product:update",
-  "product:delete",
-  "dashboard:access",
-  "settings:access",
-  "reports:view",
-  "roles:assign",
-  "roles:update",
-  "roles:delete",
-  "orders:approve",
-  "orders:cancel",
-  "orders:refund",
-  "payments:manage",
-  "invoices:generate",
-  "settings:update",
-  "system:maintenance",
-  "security:manage",
-  "create",
-  "read",
-  "update",
-  "delete",
-  "all",
-];
+
+const Roles = ["user" , "admin" , "manager" , "moderator"];
+
+ 
+
+ 
 const userSchema = new Schema(
   {
     nikename: { type: String, lowercase: true },
@@ -84,7 +51,7 @@ const userSchema = new Schema(
     status: { type: String, enum: Status, default: "active" },
     active: { type: Boolean, default: true },
     verified: { type: Boolean, default: false },
-    permissions: { type: [String], enum: Permission, default: ["read"] },
+    permission: [{ type: Types.ObjectId, ref: "Permission" }],
     last_login: { type: Date, default: null },
     cart: [{ type: Types.ObjectId, ref: "cart" }],
     order: [{ type: Types.ObjectId, ref: "order" }],
