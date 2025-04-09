@@ -12,8 +12,13 @@ export const database = () => {
         String(process.env.DB_PASSWORD)
       )
     )
-    .then(() => {
+    // .then(() => {
+    //   console.log(msg_api);
+    // })
+    mongoose.connection.once("open", () => {
       console.log(msg_api);
-    })
- 
+    });
+    mongoose.connection.on("error", (error) => {
+      console.error("Error connecting to MongoDB:", error);
+    });
 };
