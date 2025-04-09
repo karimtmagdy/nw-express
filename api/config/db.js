@@ -15,8 +15,5 @@ export const database = () => {
     .then(() => {
       console.log(msg_api);
     })
-  //   .catch((err) => console.error("Error MongoDB: Catch", err));
-  // mongoose.connection.on("error", (error) => {
-  //   console.error("Error connecting to MongoDB:", error);
-  // });
+ 
 };
