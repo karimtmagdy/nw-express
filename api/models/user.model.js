@@ -9,7 +9,7 @@ const Roles = ["user" , "admin" , "manager" , "moderator"];
  
 const userSchema = new Schema(
   {
-    nikename: { type: String, lowercase: true },
+    nickname: { type: String, lowercase: true },
     username: {
       type: String,
       required: [true, "username is required"],

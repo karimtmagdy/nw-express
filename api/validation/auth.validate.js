@@ -46,4 +46,13 @@ export const signInSchema = z
   })
  
 
-export const signOutSchema = z.object({}).required();
+// export const signOutSchema = z.object({}).required();
+export const validateRegister = fn(async (req, res, next) => {
+  await signUpSchema.parseAsync(req.body);
+  next();
+});
+
+export const validateLogin = fn(async (req, res, next) => {
+  await signInSchema.parseAsync(req.body);
+  next();
+});
